@@ -2,6 +2,7 @@ package com.sgc.onboarding.common.config;
 
 import com.sgc.onboarding.common.dto.UserRole;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -21,7 +22,8 @@ import java.util.NoSuchElementException;
 public class JwtUtil {
 
     private static final String BEARER_PREFIX = "Bearer ";
-    private static final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
+    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 30; // 30분
+    private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7일
 
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -34,18 +36,28 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(bytes);
     }
 
-    public String createToken(Long userId, String nickname, UserRole userRole) {
+    public String createAccessToken(Long userId, String nickname, UserRole userRole) {
         Date date = new Date();
 
-        return BEARER_PREFIX +
-                Jwts.builder()
-                        .setSubject(String.valueOf(userId))
-                        .claim("nickname", nickname)
-                        .claim("userRole", userRole.name())
-                        .setExpiration(new Date(date.getTime() + TOKEN_TIME))
-                        .setIssuedAt(date) // 발급일
-                        .signWith(key, signatureAlgorithm) // 암호화 알고리즘
-                        .compact();
+        return BEARER_PREFIX + Jwts.builder()
+                .setSubject(String.valueOf(userId))
+                .claim("nickname", nickname)
+                .claim("userRole", userRole.name())
+                .setIssuedAt(date)
+                .setExpiration(new Date(date.getTime() + ACCESS_TOKEN_EXPIRATION))
+                .signWith(key, signatureAlgorithm)
+                .compact();
+    }
+
+    public String createRefreshToken(Long userId) {
+        Date date = new Date();
+
+        return BEARER_PREFIX + Jwts.builder()
+                .setSubject(String.valueOf(userId))
+                .setIssuedAt(date)
+                .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_EXPIRATION))
+                .signWith(key, signatureAlgorithm)
+                .compact();
     }
 
     public String substringToken(String tokenValue) {
@@ -61,5 +73,13 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public boolean isTokenExpired(String token) {
+        try {
+            return extractClaims(token).getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 }
