@@ -12,14 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
+    @Transactional
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     public User getUserFromUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    @Transactional
     public User getUserFromNickname(String nickname) {
         return userRepository.findByNickname(nickname);
     }
