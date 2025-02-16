@@ -1,5 +1,7 @@
-package com.sgc.onboarding.common.config;
+package com.sgc.onboarding.security.config;
 
+import com.sgc.onboarding.security.jwt.JwtSecurityFilter;
+import com.sgc.onboarding.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

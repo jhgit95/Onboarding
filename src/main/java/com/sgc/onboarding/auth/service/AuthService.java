@@ -4,7 +4,7 @@ import com.sgc.onboarding.auth.dto.sign.SignRequest;
 import com.sgc.onboarding.auth.dto.sign.SignResponse;
 import com.sgc.onboarding.auth.dto.signup.SignupRequest;
 import com.sgc.onboarding.auth.dto.signup.SignupResponse;
-import com.sgc.onboarding.common.config.JwtUtil;
+import com.sgc.onboarding.security.jwt.JwtUtil;
 import com.sgc.onboarding.common.exception.BadRequestException;
 import com.sgc.onboarding.user.entity.User;
 import com.sgc.onboarding.user.service.UserService;

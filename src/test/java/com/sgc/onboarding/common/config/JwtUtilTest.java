@@ -1,6 +1,7 @@
 package com.sgc.onboarding.common.config;
 
 import com.sgc.onboarding.common.dto.UserRole;
+import com.sgc.onboarding.security.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

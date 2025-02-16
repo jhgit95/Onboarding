@@ -1,4 +1,4 @@
-package com.sgc.onboarding.common.config;
+package com.sgc.onboarding.security.jwt;
 
 import com.sgc.onboarding.common.dto.AuthUser;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
