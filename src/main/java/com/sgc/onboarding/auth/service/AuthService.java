@@ -10,6 +10,7 @@ import com.sgc.onboarding.user.entity.User;
 import com.sgc.onboarding.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,8 +44,8 @@ public class AuthService {
         User user = new User(reqDto.getUsername(), encodedPassword, reqDto.getNickname());
         User createUser = userService.createUser(user);
 
-        List<SignupResponse.Authority> authorities = List.of(
-                new SignupResponse.Authority(user.getUserRole().getUserRole())
+        List<SimpleGrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority(user.getUserRole().getUserRole())
         );
 
         return new SignupResponse(createUser.getUsername(), createUser.getNickname(), authorities);
