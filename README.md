@@ -6,6 +6,4 @@
 EC2 배포 서버 API 문서 : http://43.201.18.127:8080/swagger-ui/index.html
 
 
-![image](https://github.com/user-attachments/assets/bbe3a16c-53b8-4e22-8be8-1724ce7d56f0)
-
 
